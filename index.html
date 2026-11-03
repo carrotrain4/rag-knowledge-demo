@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="面向制造企业的 RAG 智能问答系统交互式 Demo：父子块分层切割、混合检索、BGE-Reranker 精排、RAGAS 评估与低置信兜底。">
+  <meta name="theme-color" content="#f3f0e8">
+  <title>知序 · 企业 RAG 智能问答系统</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="paper-glow glow-a" aria-hidden="true"></div>
+  <div class="paper-glow glow-b" aria-hidden="true"></div>
+  <div class="fine-grid" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="返回页面顶部">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 40 40" fill="none">
+          <path d="M8 8.5h14.5a5 5 0 0 1 5 5V33H13a5 5 0 0 1-5-5V8.5Z" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M32 11.5v21.7H18" stroke="currentColor" stroke-width="1.5" opacity=".55"/>
+          <path d="M13 14h9M13 19h9M13 24h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="29.5" cy="9.5" r="4.5" fill="#e46d37"/>
+          <path d="m27.5 9.5 1.4 1.4 2.5-2.6" stroke="#fffaf2" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="brand-copy"><strong>知序</strong><small>KNOWLEDGE FOUNDRY</small></span>
+    </a>
+    <nav class="main-nav" aria-label="页面导航">
+      <a href="#workbench" class="active">问答工作台</a>
+      <a href="#pipeline">RAG 流程</a>
+      <a href="#architecture">系统架构</a>
+    </nav>
+    <div class="header-actions">
+      <span class="service-pill"><i></i>RAG SERVICE ONLINE</span>
+      <span class="project-tag">PROJECT 02</span>
+    </div>
+  </header>
+
+  <main class="page-shell" id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span>02</span><i></i>ENTERPRISE KNOWLEDGE INTELLIGENCE</div>
+        <h1>把散落的知识，<br><em>变成可直接使用的答案。</em></h1>
+        <p>面向制造企业知识管理的 RAG 问答系统。将 PDF、Word、PPT、图片与邮件统一解析，经过父子块分层切割、混合检索与 BGE-Reranker 精排，生成<strong>带出处、可复核</strong>的回答。</p>
+        <div class="hero-tags">
+          <span><i></i>多源异构解析</span><span><i></i>BGE-Reranker</span><span><i></i>RAGAS 评估</span><span><i></i>低置信兜底</span>
+        </div>
+      </div>
+      <div class="hero-side">
+        <div class="hero-metrics">
+          <article class="metric-card dark"><span class="metric-label">自动应答率</span><div class="metric-value"><strong>80</strong><span>%+</span></div><small>测试集覆盖全部模拟文档</small><span class="metric-mark">AUTO</span></article>
+          <article class="metric-card"><span class="metric-label">高频问题解决率</span><div class="metric-value"><strong>92</strong><span>%</span></div><small>平均检索耗时 &lt; 1.3 s</small><svg class="mini-chart" viewBox="0 0 80 26" aria-hidden="true"><path d="M2 22C12 22 12 15 22 16s10-9 20-7 9-5 18-6 8-2 18-2" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></article>
+          <article class="metric-card"><span class="metric-label">知识覆盖提升</span><div class="metric-value"><strong>40</strong><span>%</span></div><small>父子块切割解决跨段语义断裂</small></article>
+          <article class="metric-card accent"><span class="metric-label">重排相关性</span><div class="metric-value"><strong>+28</strong><span>%</span></div><small>CrossEncoder 二次打分</small></article>
+        </div>
+        <div class="hero-note"><span class="note-index">RAGAS LOOP</span><p>忠实度 / 答案相关性 / 上下文相关性<br>自动评估 + 人工抽检双轨并行</p><span class="note-dot"></span></div>
+      </div>
+    </section>
+
+    <section class="workbench-section" id="workbench" aria-labelledby="workbenchTitle">
+      <div class="section-heading">
+        <div><span class="section-kicker">03 / LIVE WORKBENCH</span><h2 id="workbenchTitle">企业知识问答工作台</h2></div>
+        <div class="heading-note"><span class="live-dot"></span>所有结果均绑定检索证据与质量评分</div>
+      </div>
+
+      <div class="workbench">
+        <aside class="kb-panel" aria-label="知识资产">
+          <div class="panel-top"><div><span class="micro-label">KNOWLEDGE BASE</span><h3>知识资产</h3></div><span class="source-count" id="sourceCount">7 SOURCES</span></div>
+          <label class="doc-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.3"/><path d="m15.5 15.5 4.2 4.2"/></svg>
+            <input id="docSearch" type="search" placeholder="搜索知识文档" autocomplete="off">
+          </label>
+          <div class="kb-summary"><div><strong>1,284</strong><span>语义切片</span></div><div><strong>96.8%</strong><span>解析成功率</span></div><div><strong>刚刚</strong><span>向量库同步</span></div></div>
+          <div class="doc-list" id="docList">
+            <button class="doc-item selected" type="button" data-doc="sop"><span class="file-icon docx">DOC</span><span class="doc-copy"><strong>装配工艺规范_SOP-A12</strong><small>DOCX · 186 chunks</small></span><span class="doc-state"><i></i>已索引</span></button>
+            <button class="doc-item" type="button" data-doc="manual"><span class="file-icon pdf">PDF</span><span class="doc-copy"><strong>设备维修手册_v4.2</strong><small>PDF · 312 chunks</small></span><span class="doc-state"><i></i>已索引</span></button>
+            <button class="doc-item" type="button" data-doc="orders"><span class="file-icon xlsx">XLS</span><span class="doc-copy"><strong>故障工单_2026Q3</strong><small>XLSX · 86 chunks</small></span><span class="doc-state"><i></i>已索引</span></button>
+            <button class="doc-item" type="button" data-doc="change"><span class="file-icon pdf">PDF</span><span class="doc-copy"><strong>工艺变更通知_CN-2026-08</strong><small>PDF · 24 chunks</small></span><span class="doc-state"><i></i>已索引</span></button>
+            <button class="doc-item" type="button" data-doc="plan"><span class="file-icon ppt">PPT</span><span class="doc-copy"><strong>设备维保计划_Q4</strong><small>PPTX · 64 chunks</small></span><span class="doc-state"><i></i>已索引</span></button>
+            <button class="doc-item" type="button" data-doc="mail"><span class="file-icon mail">EML</span><span class="doc-copy"><strong>供应商变更邮件归档</strong><small>EML · 54 chunks</small></span><span class="doc-state"><i></i>已索引</span></button>
+            <button class="doc-item" type="button" data-doc="image"><span class="file-icon image">IMG</span><span class="doc-copy"><strong>CNC-07 维修示意图</strong><small>PNG · 18 chunks</small></span><span class="doc-state"><i></i>已索引</span></button>
+          </div>
+          <div class="kb-footer">
+            <input class="sr-only" id="fileUpload" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.md,.eml,.png,.jpg,.jpeg">
+            <button class="upload-button" id="uploadButton" type="button"><span>＋</span>接入新文档</button>
+            <span class="sync-copy"><i></i>增量索引已开启</span>
+          </div>
+        </aside>
+
+        <section class="chat-panel" aria-label="知识问答">
+          <header class="chat-header">
+            <div class="agent-profile">
+              <span class="agent-avatar"><svg viewBox="0 0 32 32" fill="none"><path d="M7 8.5h11.5A4.5 4.5 0 0 1 23 13v11.5H11.5A4.5 4.5 0 0 1 7 20V8.5Z" stroke="currentColor" stroke-width="1.4"/><path d="M26 11v14H14" stroke="currentColor" stroke-width="1.4" opacity=".45"/><path d="m10.5 14 2.2 2.2 4.6-4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <div><strong>制造知识助手</strong><span><i></i>已连接 7 个知识源 · 混合检索开启</span></div>
+            </div>
+            <div class="chat-header-actions">
+              <button class="icon-action" id="guardToggle" type="button" title="切换低置信兜底"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 19 6v5.3c0 4.2-2.8 7.7-7 9.7-4.2-2-7-5.5-7-9.7V6l7-3Z"/><path d="m9 12 2 2 4-4"/></svg><span>证据约束</span></button>
+              <button class="icon-action square" id="clearChat" type="button" title="清空会话" aria-label="清空会话"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13M10 11v5M14 11v5"/></svg></button>
+            </div>
+          </header>
+          <div class="chat-scroll" id="chatMessages" aria-live="polite">
+            <div class="message assistant welcome-message">
+              <span class="message-avatar">AI</span>
+              <div class="message-main"><div class="message-meta"><strong>制造知识助手</strong><span>刚刚</span><em>RAG</em></div><div class="message-bubble assistant-bubble"><p>你好，我是企业知识助手。已接入设备维修、工艺规范、质量工单与供应商邮件等知识资产。</p><p>我可以在回答时同步展示检索路径、引用原文和质量评分。你想先查什么？</p></div></div>
+            </div>
+          </div>
+          <div class="prompt-rail"><span class="prompt-label">推荐问题</span><div class="prompt-chips" id="promptChips"><button type="button" data-prompt="torque">A-12 最新扭矩标准</button><button type="button" data-prompt="maintenance">主轴异响排查步骤</button><button type="button" data-prompt="downtime">Line 2 停机损失原因</button><button type="button" data-prompt="unknown" class="ghost">知识盲区测试</button></div></div>
+          <form class="composer" id="qaForm">
+            <textarea id="questionInput" rows="2" placeholder="向知识库提问，例如：A-12 工位变更后需要做哪些确认？" aria-label="输入问题"></textarea>
+            <div class="composer-bottom">
+              <div class="composer-tools"><span class="mode-chip"><i></i>混合检索</span><span class="mode-chip subtle">Top-K 5</span><span class="mode-chip subtle">BGE-Rerank</span></div>
+              <div class="composer-submit"><span class="enter-hint">Enter 发送 · Shift + Enter 换行</span><button class="send-button" id="sendButton" type="submit" aria-label="发送问题"><span>发送</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="m4 12 15-7-4.8 14-3-5.4L4 12Z"/><path d="m11.2 13.6 3-3"/></svg></button></div>
+            </div>
+          </form>
+        </section>
+
+        <aside class="trace-panel" aria-label="检索追踪与质量评估">
+          <div class="trace-top"><div><span class="micro-label">RETRIEVAL TRACE</span><h3>检索追踪</h3></div><span class="trace-latency" id="traceLatency">— ms</span></div>
+          <div class="trace-scroll">
+            <div class="trace-summary" id="traceSummary"><span class="summary-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6h16M7 12h10M10 18h4"/></svg></span><div><strong>等待提问</strong><small>检索路径将在此实时更新</small></div></div>
+            <div class="pipeline" id="pipeline">
+              <div class="pipeline-row" data-stage="understand"><span class="stage-index">01</span><div><strong>查询理解</strong><small>等待提问</small></div><span class="stage-state">待命</span></div>
+              <div class="pipeline-row" data-stage="hybrid"><span class="stage-index">02</span><div><strong>混合检索</strong><small>BM25 + Vector</small></div><span class="stage-state">待命</span></div>
+              <div class="pipeline-row" data-stage="rerank"><span class="stage-index">03</span><div><strong>BGE 重排</strong><small>CrossEncoder 二次打分</small></div><span class="stage-state">待命</span></div>
+              <div class="pipeline-row" data-stage="generate"><span class="stage-index">04</span><div><strong>答案生成</strong><small>证据约束生成</small></div><span class="stage-state">待命</span></div>
+              <div class="pipeline-row" data-stage="evaluate"><span class="stage-index">05</span><div><strong>RAGAS 评估</strong><small>三维质量检测</small></div><span class="stage-state">待命</span></div>
+              <div class="pipeline-row fallback-row" id="fallbackStage" data-stage="fallback" hidden><span class="stage-index">!</span><div><strong>低置信兜底</strong><small>联网检索 + 问题回流</small></div><span class="stage-state">触发</span></div>
+            </div>
+            <div class="trace-divider"><span>EVIDENCE</span><i></i></div>
+            <div class="evidence-area" id="evidenceArea"><div class="trace-placeholder"><span class="placeholder-mark">↗</span><strong>检索证据</strong><p>提问后展示 Top-3 语义块、父块上下文与重排得分。</p></div></div>
+            <div class="trace-divider"><span>RAGAS EVALUATION</span><i></i></div>
+            <div class="ragas-panel">
+              <div class="ragas-header"><span>质量维度</span><strong id="ragasOverall">—</strong></div>
+              <div class="ragas-row"><div><span>忠实度</span><b id="faithfulnessValue">—</b></div><div class="score-bar"><i id="faithfulnessBar"></i></div></div>
+              <div class="ragas-row"><div><span>答案相关性</span><b id="answerRelevancyValue">—</b></div><div class="score-bar"><i id="answerRelevancyBar"></i></div></div>
+              <div class="ragas-row"><div><span>上下文相关性</span><b id="contextRelevancyValue">—</b></div><div class="score-bar"><i id="contextRelevancyBar"></i></div></div>
+              <div class="ragas-status" id="ragasStatus"><i></i><span>等待检索结果</span></div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="pipeline-section" id="pipeline" aria-labelledby="pipelineTitle">
+      <div class="section-heading"><div><span class="section-kicker">04 / RAG PIPELINE</span><h2 id="pipelineTitle">从异构文档，到可信回答</h2></div><div class="heading-note">完整链路 · 每一步都可观测</div></div>
+      <div class="pipeline-cards">
+        <article class="process-card"><span class="process-index">01</span><span class="process-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3.5h8l4 4V20H6z"/><path d="M14 3.5V8h4M9 12h6M9 15.5h6"/></svg></span><h3>多源解析</h3><p>PDF / Word / PPT / 图片 OCR / 邮件统一抽取文本、表格与页码。</p><span class="process-meta">6 类格式 · 96.8% 解析率</span></article>
+        <span class="process-arrow">→</span>
+        <article class="process-card"><span class="process-index">02</span><span class="process-icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="7" rx="1.5"/><rect x="7" y="14" width="10" height="5" rx="1.2"/><path d="M8 11v3M16 11v3"/></svg></span><h3>父子块分层切割</h3><p>子块 256 字符负责精准命中，父块 1,024 字符补齐上下文语义。</p><span class="process-meta">覆盖完整性 +40%</span></article>
+        <span class="process-arrow">→</span>
+        <article class="process-card"><span class="process-index">03</span><span class="process-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="10" r="5.5"/><path d="m14 14 5 5M7.5 10h5M10 7.5v5"/></svg></span><h3>混合检索</h3><p>BM25 关键词召回与向量语义召回并行融合，扩大候选覆盖。</p><span class="process-meta">召回率 +18%</span></article>
+        <span class="process-arrow">→</span>
+        <article class="process-card"><span class="process-index">04</span><span class="process-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 17.5 9 12l3 3 7-8"/><path d="M15 7h4v4"/></svg></span><h3>BGE-Reranker 精排</h3><p>CrossEncoder 对候选块逐条二次打分，把真正相关的证据送到生成端。</p><span class="process-meta">相关性 +28%</span></article>
+        <span class="process-arrow">→</span>
+        <article class="process-card"><span class="process-index">05</span><span class="process-icon violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 11.5a8 8 0 1 1-2.3-5.7"/><path d="M20 4v7.5h-7.5"/><path d="m8.5 12 2.3 2.3 4.7-4.6"/></svg></span><h3>RAGAS 评估</h3><p>忠实度、答案相关性、上下文相关性三维评分，配合人工抽检。</p><span class="process-meta">自动评估 + 人工双轨</span></article>
+      </div>
+    </section>
+
+    <section class="quality-section" aria-labelledby="qualityTitle">
+      <div class="section-heading"><div><span class="section-kicker">05 / QUALITY DESIGN</span><h2 id="qualityTitle">让回答不仅“像”，而且可信</h2></div><div class="heading-note">检索增强 × 证据约束 × 质量闭环</div></div>
+      <div class="quality-grid">
+        <article class="quality-card chunk-card">
+          <div class="quality-head"><span class="quality-num">01</span><div><span class="micro-label">PARENT-CHILD CHUNKING</span><h3>小块命中，大块作答</h3></div></div>
+          <div class="chunk-visual"><div class="parent-block"><span class="block-label">PARENT · 1,024 chars</span><p>主轴异响应优先检查轴承润滑状态与预紧力。停机并等待主轴温度低于 40°C 后，复测油路压力…</p><div class="child-block"><span>CHILD · 256 chars</span><p>重新预紧时使用 18 N·m 扭矩，完成后空载运行 30 分钟并复测振动 RMS。</p><em>命中片段</em></div></div><div class="chunk-connector"><i></i><span>context expand</span></div><div class="answer-chip"><span>生成引用</span><strong>“预紧扭矩 18 N·m，运行 30 min 后复测振动。”</strong></div></div>
+          <div class="quality-foot"><span>长文档跨段语义断裂问题</span><strong>覆盖完整性 +40%</strong></div>
+        </article>
+        <article class="quality-card eval-card">
+          <div class="quality-head"><span class="quality-num">02</span><div><span class="micro-label">RAGAS QUALITY LOOP</span><h3>三维质量评估</h3></div></div>
+          <div class="eval-showcase"><div class="eval-ring"><span>0.94</span><small>综合分</small></div><div class="eval-bars"><div><span>忠实度</span><b>0.94</b><i><em style="width:94%"></em></i></div><div><span>答案相关性</span><b>0.91</b><i><em style="width:91%"></em></i></div><div><span>上下文相关性</span><b>0.89</b><i><em style="width:89%"></em></i></div></div></div>
+          <div class="eval-loop"><span>自动打分</span><i></i><span>低分样本抽检</span><i></i><span>提示词/切分优化</span><i></i><span>回归测试</span></div>
+          <div class="quality-foot"><span>评估与人工抽检双轨并行</span><strong>可回归 · 可追踪</strong></div>
+        </article>
+        <article class="quality-card fallback-card">
+          <div class="quality-head"><span class="quality-num">03</span><div><span class="micro-label">LOW CONFIDENCE FALLBACK</span><h3>答不上来，也不硬编</h3></div></div>
+          <div class="fallback-flow"><div class="flow-node"><span>置信度阈值</span><strong>&lt; 0.72</strong></div><span class="flow-arrow">→</span><div class="flow-node orange"><span>联网搜索</span><strong>补充外部证据</strong></div><span class="flow-arrow">→</span><div class="flow-node"><span>问题入队</span><strong>知识库回流</strong></div></div>
+          <div class="fallback-quote">“内部知识不足时，明确告知边界；外部搜索与问题回流形成持续迭代闭环。”</div>
+          <div class="quality-foot"><span>低置信问题自动标记</span><strong>不产生无依据回答</strong></div>
+        </article>
+        <article class="quality-card retrieval-card" id="architecture">
+          <div class="quality-head"><span class="quality-num">04</span><div><span class="micro-label">SYSTEM ARCHITECTURE</span><h3>可替换的 RAG 服务层</h3></div></div>
+          <div class="layer-stack"><div><span>01</span><strong>交互层</strong><em>Web 问答 / 引用追溯 / 质量看板</em></div><div><span>02</span><strong>检索层</strong><em>BM25 + Vector / BGE-Reranker / 父块找回</em></div><div><span>03</span><strong>生成层</strong><em>证据约束 Prompt / 置信度评估 / 引用生成</em></div><div><span>04</span><strong>数据层</strong><em>Qdrant / Redis / 文档存储 / 问题回流队列</em></div></div>
+          <div class="stack-tags"><span>LangChain</span><span>BGE</span><span>RAGAS</span><span>FastAPI</span><span>Qdrant</span><span>Redis</span><span>Vanilla JS Demo</span></div>
+        </article>
+      </div>
+      <div class="architecture-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8.5"/><path d="M12 10.5v5M12 7.5h.01"/></svg><p>本页面为可交互前端原型：文档解析、混合检索、重排和 RAGAS 评分由内置状态机模拟；生产版本可按相同接口接入真实 RAG 服务。页面内企业与业务数据均为虚构演示数据。</p></div>
+    </section>
+  </main>
+
+  <footer class="footer"><div class="footer-brand"><span class="footer-mark">知</span><span>知序 · Knowledge Foundry</span></div><p>企业 RAG 智能问答系统 · AI 应用开发作品集 <span>·</span> 2026</p><a href="#top">回到顶部 ↑</a></footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="modal-backdrop" id="evidenceModal" aria-hidden="true">
+    <article class="evidence-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" id="modalClose" type="button" aria-label="关闭">×</button>
+      <span class="micro-label" id="modalKicker">SOURCE EVIDENCE</span>
+      <h3 id="modalTitle">证据详情</h3>
+      <div class="modal-meta" id="modalMeta"></div>
+      <blockquote id="modalQuote"></blockquote>
+      <div class="modal-score-row"><span id="modalScoreLabel">Rerank 相关性</span><div class="modal-score-track"><i id="modalScoreBar"></i></div><strong id="modalScore">—</strong></div>
+    </article>
+  </div>
+  <noscript><div class="noscript">此 Demo 需要启用 JavaScript 才能体验知识问答流程。</div></noscript>
+  <script src="app.js"></script>
+</body>
+</html>
